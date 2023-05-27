@@ -3,6 +3,8 @@
 Created this simple app with inspiration from VesselFinder. API is from https://aisstream.io
 This application allows you to view vessel data in an interactive map format. Built with Flask and Leaflet.js, it fetches and displays vessel data, including the vessel's name, current status, and coordinates. The data is updated every 5 minutes to provide near real-time tracking.
 
+![](https://github.com/piersonphua/Marine-Traffic/blob/d484ee236e07a4282efe203c969354c93e5b4cc6/images/Screenshot%202023-05-27%20at%204.32.39%20PM.png)
+
 ## Setup and Installation
 
 1. Clone the repository to your local machine.
