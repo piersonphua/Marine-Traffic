@@ -25,6 +25,18 @@ pip install -r requirements.txt
 # Please replace 'database_uri' with your PostgreSQL database URI
 export SQLALCHEMY_DATABASE_URI=database_uri
 ```
+  If the above does not work,
+  In app.py, replace 
+```bash
+app = Flask(__name__, static_folder=os.path.join(os.getcwd(), "templates/static"))
+# Use an environment variable for your database URI, don't hard-code it.
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+```
+  with
+```bash
+app = Flask(__name__, static_folder="static_folder_pathname")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@localhost:5432/MARINE TRAFFIC'
+```
 
 4. Run the application.
 
