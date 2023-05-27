@@ -35,7 +35,6 @@ STATUS_DICT = {
 }
 
 app = Flask(__name__, static_folder=os.path.join(os.getcwd(), "templates/static"))
-# Use an environment variable for your database URI, don't hard-code it.
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 db.init_app(app)
 
