@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div id="mapid"></div>
+
+    <script>
+    var mymap = L.map('mapid').setView([1.31, 104.10], 13);
+    var markers = {};
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(mymap);
+
+    function updateMap() {
+        $.get("/data", function(data) {
+            // for each vessel
+            for (var i = 0; i < data.length; i++) {
+                var vessel = data[i];
+
+                // if this vessel already has a marker, update its position and popup
+                if (vessel.mmsi in markers) {
+                    markers[vessel.mmsi].setLatLng([vessel.lat, vessel.lon]);
+                    markers[vessel.mmsi].setPopupContent(vesselPopupContent(vessel));
+                }
+                // if this vessel does not have a marker yet, create one
+                else {
+                    markers[vessel.mmsi] = L.marker([vessel.lat, vessel.lon]).addTo(mymap)
+                        .bindPopup(vesselPopupContent(vessel))
+                        .on('mouseover', function (e) {
+                            this.openPopup();
+                        })
+                        .on('mouseout', function (e) {
+                            this.closePopup();
+                        });
+                }
+            }
+        });
+    }
+
+    function vesselPopupContent(vessel) {
+        return "<b>MMSI:</b> " + vessel.mmsi + "<br><b>Name:</b> " + vessel.name + "<br><b>Status:</b> " + vessel.status;
+    }
+
+    // update the map immediately, and then every 5 minutes
+    updateMap();
+    setInterval(updateMap, 5 * 60 * 1000);
+    </script>
+  </div>
+</div>
+{% endblock %}
